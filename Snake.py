@@ -10,10 +10,10 @@ import pygame, sys, time, random
 # Easy      ->  10
 # Medium    ->  25
 # Hard      ->  40
-# Harder    ->  60
-# Impossible->  120
 difficulty = 25
 print(difficulty)
+
+game_condition = True
 
 # Window size
 frame_size_x = 720
@@ -110,38 +110,100 @@ def show_score(choice, color, font, size):
     game_window.blit(score_surface, score_rect)
     # pygame.display.flip()
 
+while game_condition:
 
-# Main logic
-def snake(difficulty):
-    while True:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
+    my_font = pygame.font.SysFont(None, 60)
+    start_surface = my_font.render('Play Snake Battle!', True, black)
+    start_rect = start_surface.get_rect()
+    start_rect.midtop = (frame_size_x/2, frame_size_y/4)
+    cblue = pygame.Color(77,166,255)
+    game_window.fill(cblue)
+    game_window.blit(start_surface, start_rect)
+    # Creating the instructions and levels buttons
+    smallfont = pygame.font.SysFont('Corbel', 45)
+    instr_text = smallfont.render('Instructions', True, white)
+    text1 = smallfont.render('Easy', True, white)
+    text2 = smallfont.render('Medium', True, white)
+    text3 = smallfont.render('Hard', True, white)
+    button_instr = pygame.draw.rect(game_window, black, pygame.Rect(280, 240, 200, 50))   
+    button_background = pygame.draw.rect(game_window, black, pygame.Rect(270, 235, 220, 58))     
+    #pygame.draw.rect(game_window, red, pygame.Rect(food_pos[0], food_pos[1], 10, 10))
+    b1 = pygame.draw.rect(game_window, black, pygame.Rect(330, 320, 80, 40))        
+    b2 = pygame.draw.rect(game_window, black, pygame.Rect(320, 380, 120, 40))        
+    b3 = pygame.draw.rect(game_window, black, pygame.Rect(330, 440, 80, 40))    
+        
+    b1_background = pygame.draw.rect(game_window, black, pygame.Rect(320, 315, 100, 45))
+    b2_background = pygame.draw.rect(game_window, black, pygame.Rect(310, 375, 140, 45))
+    b3_background = pygame.draw.rect(game_window, black, pygame.Rect(320, 435, 100, 45))
+   
+    pygame.Surface.blit(game_window, instr_text, button_instr)
+    threeDown = frame_size_y//2 + frame_size_y//4
+    pygame.Surface.blit(game_window, text1, b1)
+    pygame.Surface.blit(game_window, text2, b2)
+    pygame.Surface.blit(game_window, text3, b3)
+
+    mouse_pos_x, mouse_pos_y = pygame.mouse.get_pos()
+    mouse_click = pygame.mouse.get_pressed()
+
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            sys.exit()
+        # Whenever a key is pressed down
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_ESCAPE:
+                #pygame.event.post(pygame.event.Event(pygame.QUIT))
+                #game_condition = False
                 pygame.quit()
-                sys.exit()
-            # Whenever a key is pressed down
-            elif event.type == pygame.KEYDOWN:
-                # Changing Direction
-                # W -> Up; S -> Down; A -> Left; D -> Right
-                if event.key == pygame.K_UP:
-                    change_to1 = 'UP'
-                if event.key == ord('w'):
-                    change_to2 = 'UP'
-                if event.key == pygame.K_DOWN:
-                    change_to1 = 'DOWN'
-                if event.key == ord('s'):
-                    change_to2 = 'DOWN'
-                if event.key == pygame.K_LEFT:
-                    change_to1 = 'LEFT'
-                if event.key == ord('a'):
-                    change_to2 = 'LEFT'
-                if event.key == pygame.K_RIGHT:
-                    change_to1 = 'RIGHT'
-                if event.key == ord('d'):
-                    change_to2 = 'RIGHT'
-                # Esc -> Create event to quit the game
-                if event.key == pygame.K_ESCAPE:
-                    pygame.event.post(pygame.event.Event(pygame.QUIT))
+                quit()
+        else:
+            if mouse_click:
+                if mouse_pos_x > 320 and mouse_pos_x < 420 and mouse_pos_y > 315 and mouse_pos_y < 360:
+                       difficulty = 10
+                       game_condition = False
+                elif mouse_pos_x > 310 and mouse_pos_x < 355 and mouse_pos_y > 375 and mouse_pos_y < 420:
+                       difficulty = 25
+                       game_condition = False
+                elif mouse_pos_x > 320 and mouse_pos_x < 420 and mouse_pos_y > 435 and mouse_pos_y < 480:
+                        difficulty = 40
+                        game_condition = False
+    
 
+    pygame.display.flip()
+
+    #pygame.quit()
+    #sys.exit()
+
+    #720x560
+
+while game_condition == False:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            sys.exit()
+        # Whenever a key is pressed down
+        elif event.type == pygame.KEYDOWN:
+            # Changing Direction
+            # W -> Up; S -> Down; A -> Left; D -> Right
+            if event.key == pygame.K_UP:
+                change_to1 = 'UP'
+            if event.key == ord('w'):
+                change_to2 = 'UP'
+            if event.key == pygame.K_DOWN:
+                change_to1 = 'DOWN'
+            if event.key == ord('s'):
+                change_to2 = 'DOWN'
+            if event.key == pygame.K_LEFT:
+                change_to1 = 'LEFT'
+            if event.key == ord('a'):
+                change_to2 = 'LEFT'
+            if event.key == pygame.K_RIGHT:
+                change_to1 = 'RIGHT'
+            if event.key == ord('d'):
+                change_to2 = 'RIGHT'
+            # Esc -> Create event to quit the game
+            if event.key == pygame.K_ESCAPE:
+                pygame.event.post(pygame.event.Event(pygame.QUIT))
 
         # Making sure the snake cannot move in the opposite direction instantaneously
         if change_to1 == 'UP' and direction1 != 'DOWN':
@@ -243,41 +305,3 @@ def snake(difficulty):
         # Refresh rate
         fps_controller.tick(difficulty)
         #can have button to choose difficulty in a start page
-
-while True:
-
-    my_font = pygame.font.SysFont('geneva', 60)
-    print('start page running')
-    start_surface = my_font.render('Play Snake Battle!', True, black)
-    start_rect = start_surface.get_rect()
-    start_rect.midtop = (frame_size_x/2, frame_size_y/4)
-    game_window.fill(green)
-    game_window.blit(start_surface, start_rect)
-    smallfont = pygame.font.SysFont('Corbel', 45)
-    instr_text = smallfont.render('Instructions', True, white)
-    text1 = smallfont.render('Easy', True, white)
-    text2 = smallfont.render('Medium', True, white)
-    text3 = smallfont.render('Hard', True, white)
-    button_instr = pygame.draw.rect(game_window, black, pygame.Rect(280, 240, 200, 50))        
-    #pygame.draw.rect(game_window, red, pygame.Rect(food_pos[0], food_pos[1], 10, 10))
-
-   
-    pygame.Surface.blit(game_window, instr_text, button_instr)
-    threeDown = frame_size_y//2 + frame_size_y//4
-    #pygame.draw.rect(game_window, black, (frame_size_x//4), threeDown)
-    #pygame.draw.rect(game_window, black, (frame_size_x//2), threeDown)
-    #pygame.draw.rect(game_window, black, 3*frame_size_x//4, threeDown)
-    #game_window.blit(text1, frame_size_x//4, frame_size_y//2 + frame_size_y//4)
-    #game_window.blit(text2, frame_size_x//2, frame_size_y//2 + frame_size_y//4)
-    #game_window.blit(text3, 3*frame_size_x//4, frame_size_y//2 + frame_size_y//4)
-    #for ev in pygame.event.get():
-    #    if ev.type == pygame.MOUSEBUTTONDOWN:
-    #        if 
-    pygame.display.flip()
-    #time.sleep(10)
-    #
-    snake(difficulty)
-    #pygame.quit()
-    #sys.exit()
-
-    #720x560
