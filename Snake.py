@@ -121,9 +121,9 @@ while game_condition:
     # Creating the Title 
     cblue = pygame.Color(77,166,255)
     game_window.fill(cblue)
-    title = pygame.image.load('Title.jpeg')
-    title = pygame.transform.scale(title,(720,240))
-    game_window.blit(title, (0,0))
+    title = pygame.image.load('Title.png')
+    title = pygame.transform.scale(title,(720,160))
+    game_window.blit(title, (0,30))
     # Adding snake and player specification
 
     # Creating the graphics
@@ -142,12 +142,12 @@ while game_condition:
     text2 = smallfont.render('Medium', True, white)
     text3 = smallfont.render('Hard', True, white)
     
-    b1 = pygame.draw.rect(game_window, black, pygame.Rect(330, 320, 80, 40))        
+    b1 = pygame.draw.rect(game_window, black, pygame.Rect(335, 320, 80, 40))        
     b2 = pygame.draw.rect(game_window, black, pygame.Rect(320, 380, 120, 40))        
-    b3 = pygame.draw.rect(game_window, black, pygame.Rect(330, 440, 80, 40))    
+    b3 = pygame.draw.rect(game_window, black, pygame.Rect(335, 440, 80, 40))    
         
     b1_background = pygame.draw.rect(game_window, black, pygame.Rect(320, 315, 100, 45))
-    b2_background = pygame.draw.rect(game_window, black, pygame.Rect(310, 375, 140, 45))
+    b2_background = pygame.draw.rect(game_window, black, pygame.Rect(305, 375, 140, 45))
     b3_background = pygame.draw.rect(game_window, black, pygame.Rect(320, 435, 100, 45))
    
     threeDown = frame_size_y//2 + frame_size_y//4
