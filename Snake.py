@@ -75,6 +75,9 @@ score2 = 0
 # Game Over
 # Uncommented lines are imported
 def game_over(winner):
+    pygame.mixer.music.stop()
+    pygame.mixer.music.load('end.mp3')
+    pygame.mixer.music.play(0)
     my_font = pygame.font.SysFont('times new roman', 90)
     # If green snake wins
     if winner == 1:
@@ -118,18 +121,22 @@ def show_score(choice, color, font, size):
 
 
 while game_condition:
+    pygame.mixer.music.load('Music.mp3')
+    pygame.mixer.music.play(-1)
     # Creating the Title 
     cblue = pygame.Color(77,166,255)
     game_window.fill(cblue)
     title = pygame.image.load('Title.png')
     title = pygame.transform.scale(title,(720,160))
     game_window.blit(title, (0,30))
-    # Adding snake and player specification
+    
 
     # Creating the graphics
     snake = pygame.image.load('graphics.png')
     snake = pygame.transform.scale(snake,(650,70))
     game_window.blit(snake, (50,240))
+
+    # Adding snake and player specification
     keysfont = pygame.font.SysFont('Corbel', 20)
     keys = keysfont.render('Player 1: Arrow Keys', True, black)
     arrows = keysfont.render('Player 2: A, S, D, & W', True, black)
@@ -238,6 +245,7 @@ while game_condition == False:
             direction2 = 'LEFT'
         if change_to2 == 'RIGHT' and direction2 != 'LEFT':
             direction2 = 'RIGHT'
+
 
     # Moving snake 1
     if direction1 == 'UP':
